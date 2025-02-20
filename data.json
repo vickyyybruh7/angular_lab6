@@ -1,0 +1,33 @@
+{
+    "gallery": {
+      "title": "My Photo Gallery",
+      "images": [
+        {
+          "id": 1,
+          "title": "Mountain View",
+          "url": "/placeholder.svg?height=300&width=400",
+          "description": "Beautiful mountain landscape at sunset",
+          "likes": 0,
+          "isSelected": false
+        },
+        {
+          "id": 2,
+          "title": "Ocean Sunset",
+          "url": "/placeholder.svg?height=300&width=400",
+          "description": "Stunning ocean view with golden sunset",
+          "likes": 0,
+          "isSelected": false
+        },
+        {
+          "id": 3,
+          "title": "Forest Path",
+          "url": "/placeholder.svg?height=300&width=400",
+          "description": "Serene forest pathway in autumn",
+          "likes": 0,
+          "isSelected": false
+        }
+      ]
+    }
+  }
+  
+  

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Gallery with Directives</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        .gallery {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .image-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .image-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+        .image-card.focused {
+            border-color: #007bff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+        .image-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .image-info {
+            margin-top: 10px;
+        }
+        .like-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        .like-btn:hover {
+            background-color: #0056b3;
+        }
+        .title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body ng-app="imageApp">
+    <div class="gallery" ng-controller="ImageController">
+        <h1 class="title">{{galleryData.title}}</h1>
+        
+        <div class="image-container">
+            <div class="image-card" 
+                 ng-repeat="image in galleryData.images"
+                 ng-class="{'focused': image.isSelected}"
+                 tabindex="0">
+                
+                <img ng-src="{{image.url}}" 
+                     alt="{{image.title}}"
+                     ng-focus="onImageFocus($event, image)"
+                     ng-blur="onImageBlur($event, image)">
+                
+                <div class="image-info">
+                    <h3>{{image.title}}</h3>
+                    <p>{{image.description}}</p>
+                    <p>Likes: {{image.likes}}</p>
+                    <button class="like-btn" 
+                            ng-click="likeImage(image)">
+                        Like this image
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var app = angular.module('imageApp', []);
+        
+        app.controller('ImageController', function($scope, $http) {
+            // Load data from JSON file
+            $http.get('data.json').then(function(response) {
+                $scope.galleryData = response.data.gallery;
+            });
+
+            // Click handler for liking images
+            $scope.likeImage = function(image) {
+                image.likes++;
+            };
+
+            // Focus handler with event
+            $scope.onImageFocus = function($event, image) {
+                image.isSelected = true;
+                $event.target.parentElement.classList.add('focused');
+            };
+
+            // Blur handler with event
+            $scope.onImageBlur = function($event, image) {
+                image.isSelected = false;
+                $event.target.parentElement.classList.remove('focused');
+            };
+        });
+    </script>
+</body>
+</html>
+
